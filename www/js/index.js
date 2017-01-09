@@ -35,6 +35,7 @@ var app = {
     onDeviceReady: function() {
         app.receivedEvent('deviceready');
         document.getElementById("cameraTakePicture").addEventListener("click", cameraTakePicture);
+        document.getElementById("cameraGetPicture").addEventListener("click", cameraGetPicture);
     },
     // Update DOM on a Received Event
     receivedEvent: function(id) {
@@ -50,11 +51,9 @@ var app = {
 };
 
 app.initialize();
+
 function cameraTakePicture() {
-    navigator.camera.getPicture(onSuccess, onFail, {
-        quality: 50,
-        destinationType: Camera.DestinationType.DATA_URL
-    });
+    navigator.camera.getPicture(onSuccess, onFail, {quality: 50, destinationType: Camera.DestinationType.DATA_URL});
 
     function onSuccess(imageData) {
         var image = document.getElementById('myImage');
@@ -64,4 +63,21 @@ function cameraTakePicture() {
     function onFail(message) {
         alert('Failed because: ' + message);
     }
+}
+
+function cameraGetPicture() {
+    navigator.camera.getPicture(onSuccess, onFail, { quality: 50,
+        destinationType: Camera.DestinationType.DATA_URL,
+        sourceType: Camera.PictureSourceType.PHOTOLIBRARY
+    });
+
+    function onSuccess(imageURL) {
+        var image = document.getElementById('myImage');
+        image.src = imageURL;
+    }
+
+    function onFail(message) {
+        alert('Failed because: ' + message);
+    }
+
 }
